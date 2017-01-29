@@ -1,3 +1,5 @@
+import {LocationTrackerService} from "../pages/home/locationTracker.service";
+import {ContactService} from "../pages/contact/contact.service";
 import {TeamService} from "../pages/team/team.service";
 import {Team} from "../pages/team/team.component";
 import {AboutService} from "../pages/about/about.service";
@@ -34,7 +36,9 @@ import { TabsPage } from '../pages/tabs/tabs';
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AboutService,
-    TeamService
+    TeamService,
+    ContactService,
+    LocationTrackerService
   ]
 })
 export class AppModule {}

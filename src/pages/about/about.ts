@@ -12,7 +12,6 @@ import * as io from 'socket.io-client';
 })
 export class AboutPage implements OnInit, OnDestroy {
 
-  private url = 'https://web-piste.herokuapp.com';
   private socket;
   private listener : any;
   private message : string;

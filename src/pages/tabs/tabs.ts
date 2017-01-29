@@ -1,3 +1,4 @@
+import {ContactService} from "../contact/contact.service";
 import {AboutService} from "../about/about.service";
 import { Component } from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
@@ -17,11 +18,14 @@ export class TabsPage {
   tab2Root: any = AboutPage;
   tab3Root: any = ContactPage;
 
-  messageNotRead : number;
-  subscription : Subscription;
+  messageNotReadGeneralMessage : number;
+  messageNotReadPrivateMessage : number;
+  subscriptionGeneralMessage : Subscription;
+  subscriptionPrivateMessage : Subscription;
 
-  constructor(private aboutService: AboutService) {
-    //this.messageNotRead = 0;
+  constructor(
+    private aboutService: AboutService,
+    private contactService : ContactService) {
   }
 
   //============================================================================
@@ -29,20 +33,29 @@ export class TabsPage {
   //============================================================================
 
   ngOnInit() {
-    this.subscription = this.aboutService.messageUpdate.subscribe(item => {
-      this.messageNotRead = item;
+    this.subscriptionGeneralMessage = this.aboutService.messageUpdate.subscribe(item => {
+      this.messageNotReadGeneralMessage = item;
     });
+
+    this.subscriptionPrivateMessage = this.contactService.messageUpdate.subscribe(item => {
+      this.messageNotReadPrivateMessage = item;
+    })
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscriptionGeneralMessage.unsubscribe();
+    this.subscriptionPrivateMessage.unsubscribe();
   }
 
   //============================================================================
   // Utils
   //============================================================================
 
-  clearMessageNotRead() : void {
+  clearGeneralMessageNotRead() : void {
     this.aboutService.clearMessageNotRead();
+  }
+
+  clearPrivateMessageNotRead(): void {
+    this.contactService.clearMessageNotRead();
   }
 }
