@@ -1,0 +1,19 @@
+page-about {
+
+}
+
+#chat_messages {
+  margin: 0;
+  height: 90%;
+}
+
+#chat_action {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 10%;
+}
+
+#input {
+  border: black solid 1px;
+}
