@@ -1,3 +1,4 @@
+import {TeamService} from "../team/team.service";
 import { Observable } from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {LocationTrackerService} from "./locationTracker.service";
@@ -10,7 +11,9 @@ import {
  CameraPosition,
  GoogleMapsMarkerOptions,
  GoogleMapsMarker,
- Geolocation
+ Geolocation,
+ Camera,
+ Geofence
 } from 'ionic-native';
 
 @Component({
@@ -26,7 +29,19 @@ export class HomePage {
 
   constructor(
     private locationService : LocationTrackerService,
-    private plt: Platform) {
+    private platform: Platform,
+    private teamService : TeamService) {
+      this.platform.ready().then(() => {
+        Geofence.initialize().then(
+          () => {
+            for (let fence of this.locationService.fencesArray)
+              (Geofence.addOrUpdate(fence) as any).subscribe(
+                zone => this.onGeofenceZoneEntered(zone));
+          },
+          (err) => console.log(err)
+        );
+        this.locationService.startTracking();
+      });
       //this.plt.ready().then(() => this.locationService.startTracking());
     }
 
@@ -36,17 +51,13 @@ export class HomePage {
   //============================================================================
 
   ngAfterViewInit() {
-    let elements = <HTMLCollection>document.getElementsByClassName('toolbar-background');
-    console.log(elements);
-    for (let i=0; i<elements.length; i++) {
-      (elements[i] as any).style.backgroundColor = "#00E74D";
-    }
-    //this.loadMap();
-    /*this.subscriptionPosition = this.locationService.positionUpdate.subscribe(position => {
+    this.teamService.setTeamColorTheme();
+    this.loadMap();
+    this.subscriptionPosition = this.locationService.positionUpdate.subscribe(position => {
       this.lat = position.lat;
       this.lng = position.lng;
       this.updateMap();
-    });*/
+    });
   }
 
   //============================================================================
@@ -67,6 +78,9 @@ export class HomePage {
 
       Geolocation.getCurrentPosition().then((resp) => {
         let currentPosition = new GoogleMapsLatLng(resp.coords.latitude, resp.coords.longitude);
+
+        let pos = {lat: resp.coords.latitude, lng: resp.coords.longitude};
+        this.teamService.socket.emit("coords",pos);
 
         // create CameraPosition
         let position: CameraPosition = {
@@ -105,5 +119,34 @@ export class HomePage {
       position: currentPosition,
     };
     this.map.addMarker(markerOptions);
+  }
+
+  fakeToGarbejaire() {
+    let position = {lat: 43.622323, lng: 7.047055};
+    this.teamService.socket.emit("coords",position);
+  }
+
+  takePicture() {
+
+    let options = {
+      destinationType: 0,
+      correctOrientation: true,
+      targetWidth: 1280,
+      targetHeight: 720
+    }
+
+    Camera.getPicture(options).then(
+      (imageData) => {
+        let base64Image = 'data:image/jpeg;base64,' + imageData;
+        let imageToSend = {file: base64Image};
+        this.teamService.socket.emit("image",imageToSend);
+      },
+      (err) => {
+        console.log("error taking picture");
+      });
+  }
+
+  onGeofenceZoneEntered(zone : any) {
+    console.log(zone);
   }
 }

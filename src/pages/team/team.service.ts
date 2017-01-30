@@ -18,6 +18,10 @@ export class TeamService {
     this.socket = undefined;
   }
 
+  //=======================================================================
+  // SignUp
+  //=======================================================================
+
   getTeamColor() : Observable<any> {
     let context = this;
     this.socket = io(this.url);
@@ -40,6 +44,13 @@ export class TeamService {
 
   signUp(teamName: string) : void {
     this.socket.emit("new_client",teamName);
+  }
+
+  setTeamColorTheme() : void {
+    let elements = <HTMLCollection>document.getElementsByClassName('toolbar-background');
+    for (let i=0; i<elements.length; i++) {
+      (elements[i] as HTMLElement).style.backgroundColor = this.teamColor;
+    }
   }
 
   //=======================================================================

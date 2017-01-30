@@ -47,11 +47,7 @@ export class AboutPage implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    let elements = <HTMLCollection>document.getElementsByClassName('toolbar-background');
-    console.log(elements);
-    for (let i=0; i<elements.length; i++) {
-      (elements[i] as any).style.backgroundColor = "#00E74D";
-    }
+    this.teamService.setTeamColorTheme();
   }
 
 

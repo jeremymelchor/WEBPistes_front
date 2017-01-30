@@ -23,13 +23,11 @@ export class TabsPage {
   messageNotReadPrivateMessage : number;
   subscriptionGeneralMessage : Subscription;
   subscriptionPrivateMessage : Subscription;
-  color: string;
 
   constructor(
     private aboutService: AboutService,
     private contactService : ContactService,
     private teamService: TeamService) {
-      this.color = "#00E74D";//this.teamService.teamColor;
   }
 
   //============================================================================
@@ -50,7 +48,7 @@ export class TabsPage {
     let elements = document.getElementsByClassName('tabbar');
     console.log("tabs : ",elements);
     for (let i=0; i<elements.length; i++) {
-      (elements[i] as any).style.backgroundColor = "#34af15";
+      (elements[i] as any).style.backgroundColor = this.teamService.teamColor;
     }
   }
 

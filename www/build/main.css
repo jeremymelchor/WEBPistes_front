@@ -21301,34 +21301,22 @@ sub {
   width: 100%;
 }
 
-/*#home {
-  display: flex;
-  flex-direction: column;
-}*/
 #map {
-  margin-top: 56px;
-  height: 40%;
+  height: 50%;
   width: 100%;
+  top: 0;
+  left: 0;
   position: fixed;
 }
 
-#home {
+#riddle {
   position: absolute;
   top: 50%;
+  bottom: 0;
   width: 100%;
+  margin-bottom: 56px;
 }
 
-#home .fixed-content {
-  margin-top: 0 !important;
-}
-
-#home .scroll-content {
-  margin-top: 0 !important;
-}
-
-/*#home * {
-  margin-top: 0 !important;
-}*/
 .tabs-md-tab-text-color, .tabs-md-tab-icon-color {
   color: #ffffff;
 }

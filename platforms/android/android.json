@@ -59,6 +59,10 @@
                         {
                             "xml": "<feature name=\"Geocoder\"><param name=\"android-package\" value=\"plugin.google.maps.MyGeocoder\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -68,7 +72,7 @@
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 1
+                            "count": 2
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -182,6 +186,12 @@
                             "xml": "<meta-data android:name=\"com.google.android.geo.API_KEY\" android:value=\"AIzaSyCnEZkdjbD0ahrv7CznrwJRJyerX_v_dR4\" />",
                             "count": 1
                         }
+                    ],
+                    "application": [
+                        {
+                            "xml": "<provider android:authorities=\"${applicationId}.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"android.support.v4.content.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/provider_paths\" /></provider>",
+                            "count": 1
+                        }
                     ]
                 }
             },
@@ -239,6 +249,9 @@
         },
         "cordova-plugin-googlemaps": {
             "API_KEY_FOR_ANDROID": "AIzaSyCnEZkdjbD0ahrv7CznrwJRJyerX_v_dR4",
+            "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
+        },
+        "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
         }
     },
@@ -487,6 +500,38 @@
             "clobbers": [
                 "cordova-plugin-googlemaps"
             ]
+        },
+        {
+            "id": "cordova-plugin-camera.Camera",
+            "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+            "pluginId": "cordova-plugin-camera",
+            "clobbers": [
+                "Camera"
+            ]
+        },
+        {
+            "id": "cordova-plugin-camera.CameraPopoverOptions",
+            "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+            "pluginId": "cordova-plugin-camera",
+            "clobbers": [
+                "CameraPopoverOptions"
+            ]
+        },
+        {
+            "id": "cordova-plugin-camera.camera",
+            "file": "plugins/cordova-plugin-camera/www/Camera.js",
+            "pluginId": "cordova-plugin-camera",
+            "clobbers": [
+                "navigator.camera"
+            ]
+        },
+        {
+            "id": "cordova-plugin-camera.CameraPopoverHandle",
+            "file": "plugins/cordova-plugin-camera/www/CameraPopoverHandle.js",
+            "pluginId": "cordova-plugin-camera",
+            "clobbers": [
+                "CameraPopoverHandle"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -501,6 +546,7 @@
         "cordova-plugin-whitelist": "1.3.1",
         "ionic-plugin-keyboard": "2.2.1",
         "cordova-plugin-geolocation": "2.4.1",
-        "cordova-plugin-googlemaps": "1.4.0"
+        "cordova-plugin-googlemaps": "1.4.0",
+        "cordova-plugin-camera": "2.3.1"
     }
 }
