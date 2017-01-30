@@ -11,9 +11,12 @@ page-about {
   display: flex;
   position: absolute;
   width: 100%;
-  bottom: 10%;
-}
+  bottom: 56px;
+  justify-content: space-between;
+  //margin-bottom: $tabs-height;
 
-#input {
-  border: black solid 1px;
+  input {
+    width: 100%;
+  }
+
 }

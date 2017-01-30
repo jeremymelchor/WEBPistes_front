@@ -1,7 +1,7 @@
 import {TabsPage} from "../tabs/tabs";
 import {TeamService} from "./team.service";
-import {AboutService} from "../about/about.service";
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { HttpModule, Headers, RequestOptions } from "@angular/http";
 import { NavController } from 'ionic-angular';
 
@@ -11,9 +11,9 @@ import { NavController } from 'ionic-angular';
 })
 export class Team {
 
-  private teamColor : any;
   private listColors : Array<any>;
   private teamName : string;
+  private colorObserver: Observable<any>;
 
   constructor(
     private nav: NavController,
@@ -21,7 +21,7 @@ export class Team {
     this.listColors = [
       {name: "blue", value: "#6C96FF"},
       {name: "red", value: "#FD7567"},
-      {name: "green", value: "#00E74D"},
+      {name: "green", value: "#6ddb5c"},
       {name: "yellow", value: "#FDF569"},
       {name: "orange", value: "#FF9900"},
       {name: "pink", value: "#E661AC"},
@@ -38,12 +38,23 @@ export class Team {
   // Utils
   //============================================================================
 
+  getTeamColor() {
+
+  }
+
   signUp() : void {
-    this.nav.setRoot(TabsPage);
-    /*if (this.teamName != "") {
-      this.teamService.signUp(this.teamName).subscribe(res => {
-        console.log(res);
-      })
-    }*/
+    if (this.teamService.socket == undefined) {
+      console.log("socket undefined");
+      this.teamService.getTeamColor().subscribe(
+        res => {
+          console.log("success",res)
+          if (res == 'KO') this.teamService.closeSocket();
+          else this.nav.setRoot(TabsPage);
+        },
+        error => console.log("error",error)
+      );
+      this.teamService.signUp(this.teamName);
+    }
+
   }
 }

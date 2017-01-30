@@ -21291,11 +21291,46 @@ sub {
   display: flex;
   position: absolute;
   width: 100%;
-  bottom: 10%;
+  bottom: 56px;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
-#input {
-  border: black solid 1px;
+#chat_action input {
+  width: 100%;
+}
+
+/*#home {
+  display: flex;
+  flex-direction: column;
+}*/
+#map {
+  margin-top: 56px;
+  height: 40%;
+  width: 100%;
+  position: fixed;
+}
+
+#home {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+
+#home .fixed-content {
+  margin-top: 0 !important;
+}
+
+#home .scroll-content {
+  margin-top: 0 !important;
+}
+
+/*#home * {
+  margin-top: 0 !important;
+}*/
+.tabs-md-tab-text-color, .tabs-md-tab-icon-color {
+  color: #ffffff;
 }
 
 #signUp {

@@ -1,3 +1,4 @@
+import {TeamService} from "../team/team.service";
 import {ContactService} from "../contact/contact.service";
 import {AboutService} from "../about/about.service";
 import { Component } from '@angular/core';
@@ -22,10 +23,13 @@ export class TabsPage {
   messageNotReadPrivateMessage : number;
   subscriptionGeneralMessage : Subscription;
   subscriptionPrivateMessage : Subscription;
+  color: string;
 
   constructor(
     private aboutService: AboutService,
-    private contactService : ContactService) {
+    private contactService : ContactService,
+    private teamService: TeamService) {
+      this.color = "#00E74D";//this.teamService.teamColor;
   }
 
   //============================================================================
@@ -40,6 +44,14 @@ export class TabsPage {
     this.subscriptionPrivateMessage = this.contactService.messageUpdate.subscribe(item => {
       this.messageNotReadPrivateMessage = item;
     })
+  }
+
+  ngAfterViewInit() {
+    let elements = document.getElementsByClassName('tabbar');
+    console.log("tabs : ",elements);
+    for (let i=0; i<elements.length; i++) {
+      (elements[i] as any).style.backgroundColor = "#34af15";
+    }
   }
 
   ngOnDestroy() {

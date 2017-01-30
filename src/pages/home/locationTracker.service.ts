@@ -1,21 +1,26 @@
 import {Injectable, NgZone, Inject} from '@angular/core';
 import {Geolocation, Geoposition, BackgroundGeolocation} from 'ionic-native';
+import { Observable } from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/filter';
 import * as io from 'socket.io-client';
 
 export class LocationTrackerService {
 
   public watch: any;
-  public lat: number = 0;
-  public lng: number = 0;
+  public lat: number;
+  public lng: number;
   private url : string = "https://web-piste.herokuapp.com";
   private socket;
+  positionUpdateSource = new BehaviorSubject<any>(0);
+  positionUpdate : Observable<any>;
 
   constructor(@Inject(NgZone) private zone:NgZone) {
     this.socket = io(this.url);
+    this.positionUpdate = this.positionUpdateSource.asObservable();
   }
 
-  startTracking() {
+  startTracking(): void {
     console.log("start tracking");
 
     let config = {
@@ -30,7 +35,8 @@ export class LocationTrackerService {
       console.log('[js] BackgroundGeolocation callback:  ' + location.latitude + ',' + location.longitude);
 
       this.zone.run(() => {
-        this.sendDataToServer(location.latitude, location.longitude);
+        let position = {lat: location.latitude, lng: location.longitude};
+        this.socket.emit(this.url, position);
       });
 
     }, (error) => {
@@ -38,7 +44,7 @@ export class LocationTrackerService {
     }, config);
 
     // Turn ON the background-geolocation system.  The user will be tracked whenever they suspend the app.
-    BackgroundGeolocation.start().then(res => console.log(res));
+    BackgroundGeolocation.start();
 
     // Foreground tracking
 
@@ -46,8 +52,9 @@ export class LocationTrackerService {
       console.log(res);
 
       this.zone.run(() => {
-        console.log("emit data");
-        this.sendDataToServer(res.coords.latitude, res.coords.longitude);
+        let position = {lat: res.coords.latitude, lng: res.coords.longitude};
+        this.positionUpdateSource.next(position);
+        this.socket.emit(this.url, position);
       });
     });
   }
@@ -57,11 +64,6 @@ export class LocationTrackerService {
     console.log('stopTracking');
     BackgroundGeolocation.finish();
     this.watch.unsubscribe();
-  }
-
-  sendDataToServer(latitude : number, longitude : number) {
-    let data = {lat: latitude, lng: longitude};
-    this.socket.emit(this.url, data);
   }
 
 }

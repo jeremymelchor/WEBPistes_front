@@ -1,3 +1,4 @@
+import {TeamService} from "../team/team.service";
 import {ContactService} from "./contact.service";
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
@@ -12,12 +13,14 @@ import { NavController } from 'ionic-angular';
 export class ContactPage {
 
   private socket;
-  private listener : any;
+  private onPrivateMessage : any;
   private message : string;
   private messages_received : Array<string>;
   private isBadgeUpdatable : boolean;
 
-  constructor(public contactService: ContactService) {
+  constructor(
+    public contactService: ContactService,
+    private teamService : TeamService) {
     this.message = "";
     this.messages_received = new Array<string>();
     this.isBadgeUpdatable = false;
@@ -28,7 +31,7 @@ export class ContactPage {
   //============================================================================
 
   ngOnInit() {
-      this.listener = this.contactService.getMessages().subscribe((data : any) => {
+      this.onPrivateMessage = this.teamService.getPrivateMessages().subscribe((data : any) => {
         console.log("message reçu !", data.sender, data.message);
         this.messages_received.push(data.message);
         if (this.isBadgeUpdatable)
@@ -36,8 +39,16 @@ export class ContactPage {
     });
   }
 
+  ngAfterViewInit() {
+    let elements = <HTMLCollection>document.getElementsByClassName('toolbar-background');
+    console.log(elements);
+    for (let i=0; i<elements.length; i++) {
+      (elements[i] as any).style.backgroundColor = "#00E74D";
+    }
+  }
+
   ngOnDestroy() {
-    this.listener.unsubscribe();
+    this.onPrivateMessage.unsubscribe();
   }
 
   ionViewWillEnter() {
@@ -55,7 +66,7 @@ export class ContactPage {
   sendMessage() : void {
     if (this.message != "") {
       console.log("on emit le message",this.message);
-      this.contactService.sendMessage(this.message);
+      this.teamService.sendPrivateMessage(this.message);
       this.message = "";
     }
   }

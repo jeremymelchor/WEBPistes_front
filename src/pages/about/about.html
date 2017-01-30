@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header id="header">
   <ion-navbar>
     <ion-title>
       Chat général
@@ -6,11 +6,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content id="chat_messages">
+<ion-content id="chat_messages" padding>
   <p *ngFor="let message of messages_received">{{message}}</p>
 </ion-content>
 
 <div id="chat_action">
-    <ion-input id="input" type="text" placeholder="Message" [(ngModel)]="message" ></ion-input>
-    <button (click)="sendMessage()" ion-button>Button</button>
+    <ion-input id="input" type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
+    <button (click)="sendMessage()" ion-button>Envoyer</button>
 </div>
