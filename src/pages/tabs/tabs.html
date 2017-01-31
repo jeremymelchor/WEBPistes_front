@@ -1,19 +1,19 @@
 <ion-tabs id="tabs">
-  <ion-tab [root]="tab1Root" tabTitle="Carte" tabIcon="map"></ion-tab>
-  <ion-tab
-    [root]="tab2Root"
-    (ionSelect)="clearGeneralMessageNotRead()"
-    tabTitle="Général"
-    tabIcon="chatbubbles"
-    [tabBadge]="messageNotReadGeneralMessage > 0 ? messageNotReadGeneralMessage : null"
-    tabBadgeStyle="danger">
-  </ion-tab>
-  <ion-tab
-    [root]="tab3Root"
-    (ionSelect)="clearPrivateMessageNotRead()"
-    tabTitle="Privé"
-    tabIcon="chatbubbles"
-    [tabBadge]="messageNotReadPrivateMessage > 0 ? messageNotReadPrivateMessage : null"
-    tabBadgeStyle="danger">
-  </ion-tab>
+    <ion-tab [root]="tab1Root" tabTitle="Carte" tabIcon="map"></ion-tab>
+    <ion-tab
+        [root]="tab2Root"
+        (ionSelect)="clearGeneralMessageNotRead()"
+        tabTitle="Général"
+        tabIcon="chatbubbles"
+        [tabBadge]="messageNotReadGeneralMessage > 0 ? messageNotReadGeneralMessage : null"
+        tabBadgeStyle="danger">
+    </ion-tab>
+    <ion-tab
+        [root]="tab3Root"
+        (ionSelect)="clearPrivateMessageNotRead()"
+        tabTitle="Privé"
+        tabIcon="chatbubbles"
+        [tabBadge]="messageNotReadPrivateMessage > 0 ? messageNotReadPrivateMessage : null"
+        tabBadgeStyle="danger">
+    </ion-tab>
 </ion-tabs>

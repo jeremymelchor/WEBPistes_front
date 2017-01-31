@@ -3892,7 +3892,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
                 resolveLocalFileSystemURL(photoURL, function(entry) {
                     var contactImage = document.createElement("img");
                     var contactLabelImage = document.createElement("p");                       
-                    contactLabelImage.innerHTML = "Result contact image";                   
+                    contactLabelImage.innerHTML = "Result private-message image";                   
                     contactImage.setAttribute("src", entry.toURL());
                     resolveResult.innerHTML = "Success resolve\n" + entry.toURL();
                     logBox.appendChild(contactLabelImage);
@@ -3909,7 +3909,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
             }
         }, 
         function(err) {
-            console.log("contact pick error" + err);
+            console.log("private-message pick error" + err);
         });
     }    
 
@@ -4006,7 +4006,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     div.setAttribute("align", "center");
     contentEl.appendChild(div);
 
-    createActionButton('show-contact-image', function () {
+    createActionButton('show-private-message-image', function () {
         resolveFsContactImage();
     }, 'contactButton');    
 };

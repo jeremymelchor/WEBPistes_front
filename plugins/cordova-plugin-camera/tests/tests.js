@@ -103,7 +103,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     function clearStatus() {
         document.getElementById('camera_status').innerHTML = '';
-        document.getElementById('camera_image').src = 'about:blank';
+        document.getElementById('camera_image').src = 'general-message:blank';
         var canvas = document.getElementById('canvas');
         canvas.width = canvas.height = 1;
         pictureUrl = null;
@@ -439,7 +439,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         actions_div = '<h2>Actions</h2>' +
             'For the following tests, ensure that an image is set in status box' +
             '</p><div id="metadata"></div>' +
-            'Expected result: Get metadata about file selected.<br>Status box will show, along with the metadata, "Call to FileEntry.getMetadata success, Call to FileEntry.setMetadata success, Call to FileEntry.getParent success"' +
+            'Expected result: Get metadata general-message file selected.<br>Status box will show, along with the metadata, "Call to FileEntry.getMetadata success, Call to FileEntry.setMetadata success, Call to FileEntry.getParent success"' +
             '</p><div id="reader"></div>' +
             'Expected result: Read contents of file.<br>Status box will show "Got file: {some metadata}, FileReader.readAsDataURL() - length = someNumber"' +
             '</p><div id="copy"></div>' +

@@ -1,71 +1,69 @@
-import {TeamService} from "../team/team.service";
-import {ContactService} from "../contact/contact.service";
-import {AboutService} from "../about/about.service";
-import { Component } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-
-import { HomePage } from '../home/home';
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
+import {SocketIoService} from "../sign-up/socket-io.service";
+import {PrivateMessageService} from "../private-message/private-message.service";
+import {GeneralMessageService} from "../general-message/general-message.service";
+import {Component} from "@angular/core";
+import {Subscription} from "rxjs/Subscription";
+import {HomePage} from "../home/home";
+import {GeneralMessage} from "../general-message/general-message";
+import {PrivateMessage} from "../private-message/private-message";
 
 @Component({
-  templateUrl: 'tabs.html'
+    templateUrl: 'tabs.html'
 })
-export class TabsPage {
+export class Tabs {
 
-  // this tells the tabs component which Pages
-  // should be each tab's root Page
-  tab1Root: any = HomePage;
-  tab2Root: any = AboutPage;
-  tab3Root: any = ContactPage;
+    // this tells the tabs component which Pages
+    // should be each tab's root Page
+    tab1Root: any = HomePage;
+    tab2Root: any = GeneralMessage;
+    tab3Root: any = PrivateMessage;
 
-  messageNotReadGeneralMessage : number;
-  messageNotReadPrivateMessage : number;
-  subscriptionGeneralMessage : Subscription;
-  subscriptionPrivateMessage : Subscription;
+    messageNotReadGeneralMessage: number;
+    messageNotReadPrivateMessage: number;
+    subscriptionGeneralMessage: Subscription;
+    subscriptionPrivateMessage: Subscription;
 
-  constructor(
-    private aboutService: AboutService,
-    private contactService : ContactService,
-    private teamService: TeamService) {
-  }
-
-  //============================================================================
-  // Lifecycle
-  //============================================================================
-
-  ngOnInit() {
-    this.subscriptionGeneralMessage = this.aboutService.messageUpdate.subscribe(item => {
-      this.messageNotReadGeneralMessage = item;
-    });
-
-    this.subscriptionPrivateMessage = this.contactService.messageUpdate.subscribe(item => {
-      this.messageNotReadPrivateMessage = item;
-    })
-  }
-
-  ngAfterViewInit() {
-    let elements = document.getElementsByClassName('tabbar');
-    console.log("tabs : ",elements);
-    for (let i=0; i<elements.length; i++) {
-      (elements[i] as any).style.backgroundColor = this.teamService.teamColor;
+    constructor(private generalMessageService: GeneralMessageService,
+                private privateMessageService: PrivateMessageService,
+                private socketIoService: SocketIoService) {
     }
-  }
 
-  ngOnDestroy() {
-    this.subscriptionGeneralMessage.unsubscribe();
-    this.subscriptionPrivateMessage.unsubscribe();
-  }
+    //============================================================================
+    // Lifecycle
+    //============================================================================
 
-  //============================================================================
-  // Utils
-  //============================================================================
+    ngOnInit() {
+        this.subscriptionGeneralMessage = this.generalMessageService.messageUpdate.subscribe(item => {
+            this.messageNotReadGeneralMessage = item;
+        });
 
-  clearGeneralMessageNotRead() : void {
-    this.aboutService.clearMessageNotRead();
-  }
+        this.subscriptionPrivateMessage = this.privateMessageService.messageUpdate.subscribe(item => {
+            this.messageNotReadPrivateMessage = item;
+        })
+    }
 
-  clearPrivateMessageNotRead(): void {
-    this.contactService.clearMessageNotRead();
-  }
+    ngAfterViewInit() {
+        let elements = document.getElementsByClassName('tabbar');
+        console.log("tabs : ", elements);
+        for (let i = 0; i < elements.length; i++) {
+            (elements[i] as any).style.backgroundColor = this.socketIoService.teamColor;
+        }
+    }
+
+    ngOnDestroy() {
+        this.subscriptionGeneralMessage.unsubscribe();
+        this.subscriptionPrivateMessage.unsubscribe();
+    }
+
+    //============================================================================
+    // Utils
+    //============================================================================
+
+    clearGeneralMessageNotRead(): void {
+        this.generalMessageService.clearMessageNotRead();
+    }
+
+    clearPrivateMessageNotRead(): void {
+        this.privateMessageService.clearMessageNotRead();
+    }
 }

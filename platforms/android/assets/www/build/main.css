@@ -21317,10 +21317,6 @@ sub {
   margin-bottom: 56px;
 }
 
-.tabs-md-tab-text-color, .tabs-md-tab-icon-color {
-  color: #ffffff;
-}
-
 #signUp {
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -21334,4 +21330,12 @@ sub {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+.tabs-md-tab-text-color, .tabs-md-tab-icon-color {
+  color: #ffffff;
+}
+
+.tabs-md-tab-text-color-active, .tabs-md-tab-icon-color-active {
+  color: #ffffff;
 }
