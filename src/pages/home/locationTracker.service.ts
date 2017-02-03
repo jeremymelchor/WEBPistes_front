@@ -14,8 +14,8 @@ export class LocationTrackerService {
     positionUpdate: Observable<any>;
     public fencesArray: Array<Geofence>;
 
-    constructor(@Inject(NgZone) private zone: NgZone,
-                @Inject(SocketIoService) private teamService: SocketIoService) {
+    constructor( @Inject(NgZone) private zone: NgZone,
+        @Inject(SocketIoService) private teamService: SocketIoService) {
         this.positionUpdate = this.positionUpdateSource.asObservable();
         this.fencesArray = [];
     }
@@ -34,7 +34,7 @@ export class LocationTrackerService {
         BackgroundGeolocation.configure((location) => {
             console.log('[js] BackgroundGeolocation callback:  ' + location.latitude + ',' + location.longitude);
 
-            let position = {lat: location.latitude, lng: location.longitude};
+            let position = { lat: location.latitude, lng: location.longitude };
             this.teamService.socket.emit("coords", position);
 
 
@@ -50,7 +50,7 @@ export class LocationTrackerService {
         this.watch = Geolocation.watchPosition().filter((p: any) => p.code === undefined).subscribe(res => {
             console.log(res);
 
-            let position = {lat: res.coords.latitude, lng: res.coords.longitude};
+            let position = { lat: res.coords.latitude, lng: res.coords.longitude };
             this.positionUpdateSource.next(position);
             this.teamService.socket.emit("coords", position);
 
@@ -64,6 +64,18 @@ export class LocationTrackerService {
         this.watch.unsubscribe();
     }
 
+    checkGps(): void {
+        BackgroundGeolocation.isLocationEnabled().then(res => {
+            if (res == 0) {
+                BackgroundGeolocation.showLocationSettings();
+            }
+        })
+    }
+
+    //==========================================================================
+    // Geofences implementation
+    //==========================================================================
+
     buildGeofences(zones: Array<any>): void {
         for (let zone of zones) {
             let fence = {
@@ -71,7 +83,7 @@ export class LocationTrackerService {
                 latitude: zone.lat,
                 longitude: zone.lng,
                 radius: zone.radius,
-                transitionType: 1, //Enter
+                transitionType: 3, //Enter
                 notification: {
                     id: zone.id,
                     title: "Vous rentrez dans une zone à énigme !",
@@ -81,6 +93,6 @@ export class LocationTrackerService {
             };
             this.fencesArray.push(fence);
         }
+        console.log(this.fencesArray);
     }
-
 }

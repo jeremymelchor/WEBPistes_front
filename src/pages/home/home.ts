@@ -26,25 +26,32 @@ export class HomePage {
     private map: GoogleMap;
 
     constructor(private locationService: LocationTrackerService,
-                private platform: Platform,
-                private socketIoService: SocketIoService) {
-        this.platform.ready().then(() => {
-            Geofence.initialize().then(
-                () => {
-                    for (let fence of this.locationService.fencesArray)
-                        (Geofence.addOrUpdate(fence) as any).subscribe(
-                            zone => this.onGeofenceZoneEntered(zone));
-                },
-                (err) => console.log(err)
-            );
-            this.locationService.startTracking();
-        });
+        private platform: Platform,
+        private socketIoService: SocketIoService) {
     }
 
 
     //============================================================================
     // life-cycle
     //============================================================================
+
+    ngOnInit() {
+        this.locationService.checkGps();
+        this.platform.ready().then(() => {
+            console.log("platform initialized");
+            Geofence.initialize().then(
+                () => {
+                    console.log("geofence initialized");
+                    for (let fence of this.locationService.fencesArray) {
+                        Geofence.addOrUpdate(fence);
+                    }
+                },
+                (err) => console.log(err)
+            );
+            Geofence.onTransitionReceived().subscribe(res => console.log(res));
+            this.locationService.startTracking();
+        });
+    }
 
     ngAfterViewInit() {
         this.socketIoService.setTeamColorTheme();
@@ -75,7 +82,7 @@ export class HomePage {
             Geolocation.getCurrentPosition().then((resp) => {
                 let currentPosition = new GoogleMapsLatLng(resp.coords.latitude, resp.coords.longitude);
 
-                let pos = {lat: resp.coords.latitude, lng: resp.coords.longitude};
+                let pos = { lat: resp.coords.latitude, lng: resp.coords.longitude };
                 this.socketIoService.socket.emit("coords", pos);
 
                 // create CameraPosition
@@ -103,14 +110,6 @@ export class HomePage {
         this.map.clear();
         let currentPosition = new GoogleMapsLatLng(this.lat, this.lng);
 
-        let position: CameraPosition = {
-            target: currentPosition,
-            zoom: 18,
-            tilt: 30
-        };
-
-        this.map.moveCamera(position);
-
         let markerOptions: GoogleMapsMarkerOptions = {
             position: currentPosition,
         };
@@ -118,7 +117,7 @@ export class HomePage {
     }
 
     fakeToGarbejaire() {
-        let position = {lat: 43.622323, lng: 7.047055};
+        let position = { lat: 43.620462, lng: 7.046288 };
         this.socketIoService.socket.emit("coords", position);
     }
 
@@ -134,15 +133,13 @@ export class HomePage {
         Camera.getPicture(options).then(
             (imageData) => {
                 let base64Image = 'data:image/jpeg;base64,' + imageData;
-                let imageToSend = {file: base64Image};
+                let imageToSend = { file: base64Image };
                 this.socketIoService.socket.emit("image", imageToSend);
             },
             (err) => {
-                console.log("error taking picture",err);
+                console.log("error taking picture", err);
             });
     }
 
-    onGeofenceZoneEntered(zone: any) {
-        console.log(zone);
-    }
+    onTransition
 }
