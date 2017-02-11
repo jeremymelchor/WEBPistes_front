@@ -12,7 +12,7 @@ export class LocationTrackerService {
     public lng: number;
     positionUpdateSource = new BehaviorSubject<any>(0);
     positionUpdate: Observable<any>;
-    public fencesArray: Array<Geofence>;
+    public fencesArray: Array<any>;
 
     constructor( @Inject(NgZone) private zone: NgZone,
         @Inject(SocketIoService) private teamService: SocketIoService) {
@@ -32,7 +32,7 @@ export class LocationTrackerService {
         };
 
         BackgroundGeolocation.configure((location) => {
-            console.log('[js] BackgroundGeolocation callback:  ' + location.latitude + ',' + location.longitude);
+            //console.log('[js] BackgroundGeolocation callback:  ' + location.latitude + ',' + location.longitude);
 
             let position = { lat: location.latitude, lng: location.longitude };
             this.teamService.socket.emit("coords", position);
@@ -46,14 +46,12 @@ export class LocationTrackerService {
         BackgroundGeolocation.start();
 
         // Foreground tracking
-
         this.watch = Geolocation.watchPosition().filter((p: any) => p.code === undefined).subscribe(res => {
-            console.log(res);
+            //console.log(res);
 
             let position = { lat: res.coords.latitude, lng: res.coords.longitude };
             this.positionUpdateSource.next(position);
             this.teamService.socket.emit("coords", position);
-
         });
     }
 
@@ -70,6 +68,7 @@ export class LocationTrackerService {
                 BackgroundGeolocation.showLocationSettings();
             }
         })
+
     }
 
     //==========================================================================
@@ -83,11 +82,11 @@ export class LocationTrackerService {
                 latitude: zone.lat,
                 longitude: zone.lng,
                 radius: zone.radius,
-                transitionType: 3, //Enter
+                transitionType: 1, //Enter
                 notification: {
                     id: zone.id,
-                    title: "Vous rentrez dans une zone à énigme !",
-                    text: "Dépechez-vous d'y répondre",
+                    title: "Vous rentrez dans une zone à énigme",
+                    text: "Dépechez-vous d'y répondre !",
                     openAppOnClick: true
                 }
             };

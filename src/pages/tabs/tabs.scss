@@ -1,7 +1,9 @@
-.tabs-md-tab-text-color, .tabs-md-tab-icon-color {
-    color: #ffffff;
+.tab-button,
+.tab-button-icon {
+    color: rgba(0,0,0,0.5) !important;
 }
 
-.tabs-md-tab-text-color-active, .tabs-md-tab-icon-color-active {
-    color: #ffffff;
+.tab-button[aria-selected=true],
+.tab-button[aria-selected=true] .tab-button-icon {
+    color: rgba(0,0,0,1) !important;
 }

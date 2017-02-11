@@ -275,6 +275,28 @@ module.exports = [
         "clobbers": [
             "CameraPopoverHandle"
         ]
+    },
+    {
+        "id": "es6-promise-plugin.Promise",
+        "file": "plugins/es6-promise-plugin/www/promise.js",
+        "pluginId": "es6-promise-plugin",
+        "runs": true
+    },
+    {
+        "id": "cordova-plugin-geofence.TransitionType",
+        "file": "plugins/cordova-plugin-geofence/www/TransitionType.js",
+        "pluginId": "cordova-plugin-geofence",
+        "clobbers": [
+            "TransitionType"
+        ]
+    },
+    {
+        "id": "cordova-plugin-geofence.geofence",
+        "file": "plugins/cordova-plugin-geofence/www/geofence.js",
+        "pluginId": "cordova-plugin-geofence",
+        "clobbers": [
+            "geofence"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -292,7 +314,9 @@ module.exports.metadata =
     "ionic-plugin-keyboard": "2.2.1",
     "cordova-plugin-geolocation": "2.4.1",
     "cordova-plugin-googlemaps": "1.4.0",
-    "cordova-plugin-camera": "2.3.1"
+    "cordova-plugin-camera": "2.3.1",
+    "es6-promise-plugin": "3.0.2",
+    "cordova-plugin-geofence": "0.6.0"
 };
 // BOTTOM OF METADATA
 });

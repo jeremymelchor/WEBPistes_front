@@ -42,6 +42,9 @@
         },
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
+        },
+        "cordova-plugin-geofence": {
+            "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
         }
     },
     "dependent_plugins": {
@@ -49,6 +52,9 @@
             "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
         },
         "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
+        },
+        "es6-promise-plugin": {
             "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
         }
     }

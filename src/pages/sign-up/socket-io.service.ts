@@ -49,11 +49,18 @@ export class SocketIoService {
     }
 
     setTeamColorTheme(): void {
-        console.log("on setTeamColorTheme", this.teamColor);
         let elements = <HTMLCollection>document.getElementsByClassName('toolbar-background');
         for (let i = 0; i < elements.length; i++) {
             (elements[i] as HTMLElement).style.backgroundColor = this.teamColor;
         }
+    }
+
+    //=======================================================================
+    // Home Page (maps)
+    //=======================================================================
+
+    onFenceEntered(fenceId: string) {
+        this.socket.emit("zone_entered", fenceId);
     }
 
     //=======================================================================

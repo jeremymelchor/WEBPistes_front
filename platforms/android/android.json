@@ -110,7 +110,7 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\" />",
-                            "count": 1
+                            "count": 2
                         },
                         {
                             "xml": "<uses-permission android:name=\"com.google.android.gms.permission.ACTIVITY_RECOGNITION\" />",
@@ -122,11 +122,11 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-                            "count": 2
+                            "count": 3
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
-                            "count": 2
+                            "count": 3
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS\" />",
@@ -154,6 +154,10 @@
                         },
                         {
                             "xml": "<uses-feature android:name=\"android.hardware.location.gps\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
                             "count": 1
                         }
                     ],
@@ -185,6 +189,14 @@
                         {
                             "xml": "<meta-data android:name=\"com.google.android.geo.API_KEY\" android:value=\"AIzaSyCnEZkdjbD0ahrv7CznrwJRJyerX_v_dR4\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<service android:exported=\"false\" android:label=\"@string/app_name\" android:name=\"com.cowbell.cordova.geofence.ReceiveTransitionsIntentService\"></service>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<receiver android:name=\"com.cowbell.cordova.geofence.BootReceiver\"><intent-filter><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
+                            "count": 1
                         }
                     ],
                     "application": [
@@ -204,6 +216,16 @@
                         },
                         {
                             "xml": "<string name=\"content_authority\">com.ionicframework.webpistesclient324682</string>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"GeofencePlugin\"><param name=\"android-package\" value=\"com.cowbell.cordova.geofence.GeofencePlugin\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -252,6 +274,12 @@
             "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
         },
         "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
+        },
+        "es6-promise-plugin": {
+            "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
+        },
+        "cordova-plugin-geofence": {
             "PACKAGE_NAME": "com.ionicframework.webpistesclient324682"
         }
     },
@@ -532,6 +560,28 @@
             "clobbers": [
                 "CameraPopoverHandle"
             ]
+        },
+        {
+            "id": "es6-promise-plugin.Promise",
+            "file": "plugins/es6-promise-plugin/www/promise.js",
+            "pluginId": "es6-promise-plugin",
+            "runs": true
+        },
+        {
+            "id": "cordova-plugin-geofence.TransitionType",
+            "file": "plugins/cordova-plugin-geofence/www/TransitionType.js",
+            "pluginId": "cordova-plugin-geofence",
+            "clobbers": [
+                "TransitionType"
+            ]
+        },
+        {
+            "id": "cordova-plugin-geofence.geofence",
+            "file": "plugins/cordova-plugin-geofence/www/geofence.js",
+            "pluginId": "cordova-plugin-geofence",
+            "clobbers": [
+                "geofence"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -547,6 +597,8 @@
         "ionic-plugin-keyboard": "2.2.1",
         "cordova-plugin-geolocation": "2.4.1",
         "cordova-plugin-googlemaps": "1.4.0",
-        "cordova-plugin-camera": "2.3.1"
+        "cordova-plugin-camera": "2.3.1",
+        "es6-promise-plugin": "3.0.2",
+        "cordova-plugin-geofence": "0.6.0"
     }
 }

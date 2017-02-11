@@ -1,5 +1,5 @@
 import {LocationTrackerService} from "../home/locationTracker.service";
-import {Tabs} from "../tabs/tabs";
+import {TabsPage} from "../tabs/tabs";
 import {SocketIoService} from "./socket-io.service";
 import {Component} from "@angular/core";
 import {NavController, ToastController} from "ionic-angular";
@@ -50,7 +50,7 @@ export class SignUp {
                     if (res == 'KO') this.socketIoService.closeSocket();
                     else {
                         this.locationTrackerService.buildGeofences(res);
-                        this.nav.setRoot(Tabs);
+                        this.nav.setRoot(TabsPage);
                     }
                 },
                 error => console.log("error", error)

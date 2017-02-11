@@ -9,6 +9,7 @@ import {
     GoogleMapsLatLng,
     CameraPosition,
     GoogleMapsMarkerOptions,
+    GoogleMapsMarker,
     Geolocation,
     Camera,
     Geofence
@@ -24,6 +25,7 @@ export class HomePage {
     private lat: number;
     private lng: number;
     private map: GoogleMap;
+    private myPositionMarker: GoogleMapsMarker;
 
     constructor(private locationService: LocationTrackerService,
         private platform: Platform,
@@ -36,7 +38,6 @@ export class HomePage {
     //============================================================================
 
     ngOnInit() {
-        this.locationService.checkGps();
         this.platform.ready().then(() => {
             console.log("platform initialized");
             Geofence.initialize().then(
@@ -48,7 +49,10 @@ export class HomePage {
                 },
                 (err) => console.log(err)
             );
-            Geofence.onTransitionReceived().subscribe(res => console.log(res));
+            Geofence.onTransitionReceived().subscribe(res => {
+                console.log("onZoneEntered !", res);
+                this.socketIoService.onFenceEntered(res[0].id);
+            });
             this.locationService.startTracking();
         });
     }
@@ -79,47 +83,52 @@ export class HomePage {
         // listen to MAP_READY event
         this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
 
-            Geolocation.getCurrentPosition().then((resp) => {
-                let currentPosition = new GoogleMapsLatLng(resp.coords.latitude, resp.coords.longitude);
-
-                let pos = { lat: resp.coords.latitude, lng: resp.coords.longitude };
-                this.socketIoService.socket.emit("coords", pos);
-
-                // create CameraPosition
-                let position: CameraPosition = {
-                    target: currentPosition,
-                    zoom: 18,
-                    tilt: 30
-                };
-
-                // move the map's camera to position
-                this.map.moveCamera(position);
-
-                // create new marker
-                let markerOptions: GoogleMapsMarkerOptions = {
-                    position: currentPosition,
-                };
-
-                this.map.addMarker(markerOptions);
-            });
+            //Draw fences on map
+            for (let fence of this.locationService.fencesArray) {
+                let circle = {
+                    center: new GoogleMapsLatLng(fence.latitude, fence.longitude),
+                    radius: fence.radius,
+                    strokeColor: '#FF0000',
+                    strokeWidth: 5,
+                    fillColor: '#FF0000'
+                }
+                this.map.addCircle(circle);
+            }
 
         });
+
+        Geolocation.getCurrentPosition().then((resp) => {
+            let currentPosition = new GoogleMapsLatLng(resp.coords.latitude, resp.coords.longitude);
+
+            let pos = { lat: resp.coords.latitude, lng: resp.coords.longitude };
+            this.socketIoService.socket.emit("coords", pos);
+
+            // create CameraPosition
+            let position: CameraPosition = {
+                target: currentPosition,
+                zoom: 18
+            };
+
+            // move the map's camera to position
+            this.map.moveCamera(position);
+
+            // create new marker
+            let markerOptions: GoogleMapsMarkerOptions = {
+                position: currentPosition,
+            };
+
+            this.map.addMarker(markerOptions).then(marker => {
+                this.myPositionMarker = marker;
+            });
+        });
+
     }
 
     updateMap(): void {
-        this.map.clear();
         let currentPosition = new GoogleMapsLatLng(this.lat, this.lng);
-
-        let markerOptions: GoogleMapsMarkerOptions = {
-            position: currentPosition,
-        };
-        this.map.addMarker(markerOptions);
+        if (this.myPositionMarker != undefined) this.myPositionMarker.setPosition(currentPosition);
     }
 
-    fakeToGarbejaire() {
-        let position = { lat: 43.620462, lng: 7.046288 };
-        this.socketIoService.socket.emit("coords", position);
-    }
 
     takePicture() {
 

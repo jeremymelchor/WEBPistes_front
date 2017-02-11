@@ -1,7 +1,7 @@
 import {SocketIoService} from "../sign-up/socket-io.service";
 import {PrivateMessageService} from "../private-message/private-message.service";
 import {GeneralMessageService} from "../general-message/general-message.service";
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {Subscription} from "rxjs/Subscription";
 import {HomePage} from "../home/home";
 import {GeneralMessage} from "../general-message/general-message";
@@ -10,7 +10,7 @@ import {PrivateMessage} from "../private-message/private-message";
 @Component({
     templateUrl: 'tabs.html'
 })
-export class Tabs {
+export class TabsPage {
 
     // this tells the tabs component which Pages
     // should be each tab's root Page
@@ -22,10 +22,11 @@ export class Tabs {
     messageNotReadPrivateMessage: number;
     subscriptionGeneralMessage: Subscription;
     subscriptionPrivateMessage: Subscription;
+    @ViewChild('navigation') tabRef: any;
 
     constructor(private generalMessageService: GeneralMessageService,
-                private privateMessageService: PrivateMessageService,
-                private socketIoService: SocketIoService) {
+        private privateMessageService: PrivateMessageService,
+        private socketIoService: SocketIoService) {
     }
 
     //============================================================================
@@ -33,6 +34,8 @@ export class Tabs {
     //============================================================================
 
     ngOnInit() {
+        this.tabRef.select(1);
+        this.tabRef.select(2);
         this.subscriptionGeneralMessage = this.generalMessageService.messageUpdate.subscribe(item => {
             this.messageNotReadGeneralMessage = item;
         });

@@ -9,7 +9,7 @@ import {MyApp} from "./app.component";
 import {GeneralMessage} from "../pages/general-message/general-message";
 import {PrivateMessage} from "../pages/private-message/private-message";
 import {HomePage} from "../pages/home/home";
-import {Tabs} from "../pages/tabs/tabs";
+import {TabsPage} from "../pages/tabs/tabs";
 
 @NgModule({
     declarations: [
@@ -17,7 +17,7 @@ import {Tabs} from "../pages/tabs/tabs";
         GeneralMessage,
         PrivateMessage,
         HomePage,
-        Tabs,
+        TabsPage,
         SignUp
     ],
     imports: [
@@ -29,11 +29,11 @@ import {Tabs} from "../pages/tabs/tabs";
         GeneralMessage,
         PrivateMessage,
         HomePage,
-        Tabs,
+        TabsPage,
         SignUp
     ],
     providers: [
-        {provide: ErrorHandler, useClass: IonicErrorHandler},
+        { provide: ErrorHandler, useClass: IonicErrorHandler },
         GeneralMessageService,
         SocketIoService,
         PrivateMessageService,
