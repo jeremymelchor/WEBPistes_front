@@ -21,7 +21,7 @@ export class SocketIoService {
     // SignUp
     //=======================================================================
 
-    getTeamColor(): Observable<any> {
+    getFences(): Observable<any> {
         let context = this;
         this.socket = io(this.url);
         let observable = new Observable(observer => {
@@ -41,11 +41,15 @@ export class SocketIoService {
         this.socket = undefined;
     }
 
-    signUp(teamName: string): void {
-        this.socket.emit("new_client", teamName);
+    signUp(teamName: string, teamColor: string): void {
+        this.teamColor = teamColor;
+        let teamColorValue = teamColor.replace("#", "");
+        let response = { pseudo: teamName, colorCode: teamColorValue };
+        this.socket.emit("new_client", response);
     }
 
     setTeamColorTheme(): void {
+        console.log("on setTeamColorTheme", this.teamColor);
         let elements = <HTMLCollection>document.getElementsByClassName('toolbar-background');
         for (let i = 0; i < elements.length; i++) {
             (elements[i] as HTMLElement).style.backgroundColor = this.teamColor;
