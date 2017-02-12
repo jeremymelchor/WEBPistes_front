@@ -2,7 +2,7 @@ import {SocketIoService} from "../sign-up/socket-io.service";
 import {Subscription} from "rxjs/Subscription";
 import {LocationTrackerService} from "./locationTracker.service";
 import {Component} from "@angular/core";
-import {Platform} from "ionic-angular";
+import {Platform, NavController} from "ionic-angular";
 import {
     GoogleMap,
     GoogleMapsEvent,
@@ -27,7 +27,8 @@ export class HomePage {
     private map: GoogleMap;
     private myPositionMarker: GoogleMapsMarker;
 
-    constructor(private locationService: LocationTrackerService,
+    constructor(private navCtrl: NavController,
+        private locationService: LocationTrackerService,
         private platform: Platform,
         private socketIoService: SocketIoService) {
     }
@@ -38,6 +39,11 @@ export class HomePage {
     //============================================================================
 
     ngOnInit() {
+        //initialize other component manually
+        this.navCtrl.parent.select(1);
+        this.navCtrl.parent.select(2);
+        this.navCtrl.parent.select(0);
+
         this.platform.ready().then(() => {
             console.log("platform initialized");
             Geofence.initialize().then(

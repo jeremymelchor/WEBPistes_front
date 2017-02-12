@@ -12,11 +12,11 @@ export class GeneralMessage implements OnInit, OnDestroy {
     @ViewChild(Content) content: Content;
     private onMessageReceived: any;
     private message: string;
-    private messages_received: Array<string>;
+    private messages_received: Array<any>;
     private isBadgeUpdatable: boolean;
 
     constructor(private generalMessageService: GeneralMessageService,
-                private socketIoService: SocketIoService) {
+        private socketIoService: SocketIoService) {
         this.message = "";
         this.messages_received = [];
         this.isBadgeUpdatable = false;
@@ -29,12 +29,13 @@ export class GeneralMessage implements OnInit, OnDestroy {
     ngOnInit() {
         console.log("On ngOnInit");
         this.onMessageReceived = this.socketIoService.getGeneralMessages().subscribe((data: any) => {
-            console.log("message reçu !", data.sender, data.message);
-            this.messages_received.push(data.message);
-            if (this.isBadgeUpdatable)
-                this.generalMessageService.incrementMessageNotRead();
+            let iAmTheSender: boolean;
+            if (data.sender == this.socketIoService.teamName) iAmTheSender = true;
+            else iAmTheSender = false;
+            let message = { sender: data.sender, message: data.message, iAmTheSender: iAmTheSender };
+            this.messages_received.push(message);
+            if (this.isBadgeUpdatable) this.generalMessageService.incrementMessageNotRead();
             this.content.scrollToBottom();
-            console.log(this.messages_received);
         });
     }
 

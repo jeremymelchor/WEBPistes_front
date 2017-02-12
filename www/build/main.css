@@ -21285,6 +21285,51 @@ sub {
   height: 90%;
 }
 
+#chat_messages .scroll-content {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+#chat_messages .message {
+  border-radius: 5px;
+  background-color: #f4f4f4;
+  margin-top: 5px;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+#chat_messages .myMessage {
+  float: right;
+}
+
+#chat_messages .myMessage p {
+  margin: 10px;
+}
+
+#chat_messages .notMyMessage {
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#chat_messages .notMyMessage p:first-child {
+  color: grey;
+  font-style: italic;
+}
+
+#chat_messages .notMyMessage p {
+  margin: 0;
+}
+
 #chat_action {
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -21315,6 +21360,72 @@ sub {
   bottom: 0;
   width: 100%;
   margin-bottom: 56px;
+}
+
+#chat_messages {
+  margin: 0;
+  height: 90%;
+}
+
+#chat_messages .scroll-content {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+#chat_messages .message {
+  border-radius: 5px;
+  background-color: #f4f4f4;
+  margin-top: 5px;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+#chat_messages .myMessage {
+  float: right;
+}
+
+#chat_messages .myMessage p {
+  margin: 10px;
+}
+
+#chat_messages .notMyMessage {
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#chat_messages .notMyMessage p:first-child {
+  color: grey;
+  font-style: italic;
+}
+
+#chat_messages .notMyMessage p {
+  margin: 0;
+}
+
+#chat_action {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 56px;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+#chat_action input {
+  width: 100%;
 }
 
 #signUp {
