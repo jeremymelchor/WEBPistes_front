@@ -22,6 +22,7 @@ import {
 export class HomePage {
 
     private subscriptionPosition: Subscription;
+    private subscriptionTest: Subscription;
     private lat: number;
     private lng: number;
     private map: GoogleMap;
@@ -64,6 +65,9 @@ export class HomePage {
             this.lat = position.lat;
             this.lng = position.lng;
             this.updateMap();
+        });
+        this.subscriptionTest = this.socketIoService.getNewRiddle().subscribe((data: any) => {
+            console.log("message reçu zbreh !", data);
         });
     }
 
@@ -127,6 +131,11 @@ export class HomePage {
     updateMap(): void {
         let currentPosition = new GoogleMapsLatLng(this.lat, this.lng);
         if (this.myPositionMarker != undefined) this.myPositionMarker.setPosition(currentPosition);
+    }
+
+    fakeToGarbejaire() {
+        this.socketIoService.onFenceEntered("2");
+
     }
 
 
