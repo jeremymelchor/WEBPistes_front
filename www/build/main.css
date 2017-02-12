@@ -21281,8 +21281,8 @@ sub {
 }
 
 #chat_messages {
-  margin: 0;
   height: 90%;
+  padding-bottom: 56px;
 }
 
 #chat_messages .scroll-content {
@@ -21340,6 +21340,7 @@ sub {
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  z-index: 1;
 }
 
 #chat_action input {
@@ -21363,7 +21364,7 @@ sub {
 }
 
 #chat_messages {
-  margin: 0;
+  padding-bottom: 56px;
   height: 90%;
 }
 
@@ -21422,6 +21423,7 @@ sub {
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  z-index: 1;
 }
 
 #chat_action input {

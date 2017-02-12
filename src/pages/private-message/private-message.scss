@@ -1,5 +1,5 @@
 #chat_messages {
-    margin: 0;
+    padding-bottom: 56px;
     height: 90%;
 
     .scroll-content {
@@ -44,6 +44,7 @@
     width: 100%;
     bottom: 56px;
     justify-content: space-between;
+    z-index: 1;
 
     input {
         width: 100%;
