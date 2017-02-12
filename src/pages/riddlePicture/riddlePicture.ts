@@ -47,7 +47,8 @@ export class RiddlePicture implements OnInit, OnDestroy {
                     });
                     alert.present();
                     this.riddleService.sendResetRiddle();
-
+                    this.riddle["points"] = Number(this.riddle["points"])
+                    this.socketIoService.sendRiddleSolved(this.riddle);
                     this.hasWin = true;
                 }
                 else {
