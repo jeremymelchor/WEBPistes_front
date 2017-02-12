@@ -7,10 +7,19 @@
 </ion-header>
 
 <ion-content id="chat_messages" padding>
-  <div *ngFor="let m of messages_received"><p><span class="sender">{{m.sender}}</span><span> : {{m.message}}</span></p></div>
+    <div *ngFor="let message of messages_received">
+        <div class="message myMessage" *ngIf="message.iAmTheSender">
+            <p>{{message.message}}</p>
+        </div>
+
+        <div class="message notMyMessage" *ngIf="!message.iAmTheSender">
+            <p>{{message.sender}}</p>
+            <p>{{message.message}}</p>
+        </div>
+    </div>
 </ion-content>
 
 <div id="chat_action">
-    <ion-input id="input" type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
+    <input id="input" type="text" placeholder="Message" [(ngModel)]="message" />
     <button (click)="sendMessage()" ion-button>Envoyer</button>
 </div>

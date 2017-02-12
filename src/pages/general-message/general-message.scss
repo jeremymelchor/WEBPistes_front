@@ -1,6 +1,41 @@
 #chat_messages {
-    margin: 0;
     height: 90%;
+    padding-bottom: 56px;
+
+    .scroll-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message {
+        border-radius: 5px;
+        background-color: #f4f4f4;
+        margin-top: 5px;
+        display: inline-flex;
+    }
+
+    .myMessage {
+        float: right;
+
+        p {
+            margin: 10px;
+        }
+    }
+
+    .notMyMessage {
+        display: inline-flex;
+        flex-direction: column;
+        padding: 10px;
+
+        p:first-child {
+            color: grey;
+            font-style: italic;
+        }
+
+        p {
+            margin: 0;
+        }
+    }
 }
 
 #chat_action {
@@ -9,12 +44,11 @@
     width: 100%;
     bottom: 56px;
     justify-content: space-between;
-    //margin-bottom: $tabs-height;
+    z-index: 1;
 
     input {
         width: 100%;
     }
-
 }
 
 .sender{

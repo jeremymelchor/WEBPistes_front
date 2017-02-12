@@ -1,6 +1,8 @@
 import {SocketIoService} from "../sign-up/socket-io.service";
 import {PrivateMessageService} from "./private-message.service";
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
+import {Content} from "ionic-angular";
+
 
 @Component({
     selector: 'private-message',
@@ -8,13 +10,14 @@ import {Component} from "@angular/core";
 })
 export class PrivateMessage {
 
+    @ViewChild(Content) content: Content;
     private onPrivateMessage: any;
     private message: string;
-    private messages_received: Array<string>;
+    private messages_received: Array<any>;
     private isBadgeUpdatable: boolean;
 
     constructor(public privateMessageService: PrivateMessageService,
-                private socketIoService: SocketIoService) {
+        private socketIoService: SocketIoService) {
         this.message = "";
         this.messages_received = [];
         this.isBadgeUpdatable = false;
@@ -26,10 +29,14 @@ export class PrivateMessage {
 
     ngOnInit() {
         this.onPrivateMessage = this.socketIoService.getPrivateMessages().subscribe((data: any) => {
-            console.log("message reçu !", data.sender, data.message);
-            this.messages_received.push(data);
-            if (this.isBadgeUpdatable)
-                this.privateMessageService.incrementMessageNotRead();
+            console.log(data);
+            let iAmTheSender: boolean;
+            if (data.sender == this.socketIoService.teamName) iAmTheSender = true;
+            else iAmTheSender = false;
+            let message = { sender: data.sender, message: data.message, iAmTheSender: iAmTheSender };
+            this.messages_received.push(message);
+            if (this.isBadgeUpdatable) this.privateMessageService.incrementMessageNotRead();
+            this.content.scrollToBottom();
         });
     }
 

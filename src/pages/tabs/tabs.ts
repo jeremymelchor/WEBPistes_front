@@ -22,9 +22,9 @@ export class TabsPage {
     messageNotReadPrivateMessage: number;
     subscriptionGeneralMessage: Subscription;
     subscriptionPrivateMessage: Subscription;
-    @ViewChild('navigation') tabRef: any;
 
-    constructor(private generalMessageService: GeneralMessageService,
+    constructor(
+        private generalMessageService: GeneralMessageService,
         private privateMessageService: PrivateMessageService,
         private socketIoService: SocketIoService) {
     }
@@ -34,8 +34,6 @@ export class TabsPage {
     //============================================================================
 
     ngOnInit() {
-        this.tabRef.select(1);
-        this.tabRef.select(2);
         this.subscriptionGeneralMessage = this.generalMessageService.messageUpdate.subscribe(item => {
             this.messageNotReadGeneralMessage = item;
         });

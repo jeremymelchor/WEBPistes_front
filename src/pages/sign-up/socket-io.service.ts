@@ -43,6 +43,7 @@ export class SocketIoService {
 
     signUp(teamName: string, teamColor: string): void {
         this.teamColor = teamColor;
+        this.teamName = teamName;
         let teamColorValue = teamColor.replace("#", "");
         let response = { pseudo: teamName, colorCode: teamColorValue };
         this.socket.emit("new_client", response);
@@ -74,6 +75,7 @@ export class SocketIoService {
     getGeneralMessages() {
         return new Observable(observer => {
             this.socket.on('general_message', (data) => {
+                console.log(data);
                 observer.next(data);
             });
             return () => {

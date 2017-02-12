@@ -29,7 +29,8 @@ export class HomePage {
     isQuiz: boolean = false;
     isPicture: boolean = false;
 
-    constructor(private locationService: LocationTrackerService,
+    constructor(
+        private locationService: LocationTrackerService,
         private platform: Platform,
         private socketIoService: SocketIoService,
       private riddleService: RiddleService) {
