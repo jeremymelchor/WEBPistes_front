@@ -1,6 +1,6 @@
 import {SocketIoService} from "../sign-up/socket-io.service";
 import {NgZone, Inject} from "@angular/core";
-import {Geolocation, BackgroundGeolocation, Geofence} from "ionic-native";
+import {Geolocation, BackgroundGeolocation} from "ionic-native";
 import {Observable} from "rxjs/Observable";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import "rxjs/add/operator/filter";

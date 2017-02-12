@@ -5,6 +5,7 @@ import {SignUp} from "../pages/sign-up/sign-up";
 import {GeneralMessageService} from "../pages/general-message/general-message.service";
 import {RiddlePictureService} from "../pages/riddlePicture/riddlePicture.service";
 import {RiddleQuizService} from "../pages/riddleQuiz/riddleQuiz.service";
+import {RiddleService} from "../pages/home/riddle.service";
 import {NgModule, ErrorHandler} from "@angular/core";
 import {IonicApp, IonicModule, IonicErrorHandler} from "ionic-angular";
 import {MyApp} from "./app.component";
@@ -49,7 +50,8 @@ import {TabsPage} from "../pages/tabs/tabs";
         PrivateMessageService,
         LocationTrackerService,
         RiddleQuizService,
-        RiddlePictureService
+        RiddlePictureService,
+        RiddleService
     ]
 })
 export class AppModule {

@@ -1,1 +1,3 @@
-<div>Picture</div>
+<h3 *ngIf="question">{{question}} ({{points}} points)</h3>
+
+<button (click)="takePicture()" ion-button>Prendre en photo</button>

@@ -1,7 +1,9 @@
 import {SocketIoService} from "../sign-up/socket-io.service";
 import {RiddlePictureService} from "./riddlePicture.service";
-import {Component, OnInit, OnDestroy, ViewChild} from "@angular/core";
-import {Content} from "ionic-angular";
+import {RiddleService} from "../home/riddle.service";
+import {Component, OnInit, OnDestroy} from "@angular/core";
+import {Camera} from "ionic-native";
+import { AlertController } from 'ionic-angular';
 
 @Component({
     selector: 'riddlePicture',
@@ -9,17 +11,20 @@ import {Content} from "ionic-angular";
 })
 export class RiddlePicture implements OnInit, OnDestroy {
 
-    @ViewChild(Content) content: Content;
-    private onMessageReceived: any;
-    private message: string;
-    private messages_received: Array<string>;
-    private isBadgeUpdatable: boolean;
+    question: string;
+    points: number;
+    riddle : Object;
 
     constructor(private generalMessageService: RiddlePictureService,
-                private socketIoService: SocketIoService) {
-        this.message = "";
-        this.messages_received = [];
-        this.isBadgeUpdatable = false;
+        private socketIoService: SocketIoService,
+        private riddleService: RiddleService,
+        public alertCtrl: AlertController) {
+        this.riddleService.newRiddlePicture.subscribe(data => {
+          this.riddle=data;
+            this.question = data.question;
+            this.points = Number(data.points);
+        });
+
     }
 
     //============================================================================
@@ -27,45 +32,59 @@ export class RiddlePicture implements OnInit, OnDestroy {
     //============================================================================
 
     ngOnInit() {
-        console.log("On ngOnInit");
-        this.onMessageReceived = this.socketIoService.getGeneralMessages().subscribe((data: any) => {
-            console.log("message reçu !", data.sender, data.message);
-            this.messages_received.push(data.message);
-            if (this.isBadgeUpdatable)
-                this.generalMessageService.incrementMessageNotRead();
-            this.content.scrollToBottom();
-            console.log(this.messages_received);
-        });
     }
 
     ngAfterViewInit() {
-        this.socketIoService.setTeamColorTheme();
+      this.socketIoService.getValidation().subscribe((data: any) => {
+          if(data.validator){
+            let alert = this.alertCtrl.create({
+                title: 'Bravo!',
+                subTitle: 'Le master a validé votre photo',
+                buttons: ['OK']
+            });
+            alert.present();
+          }
+          else{
+            let alert = this.alertCtrl.create({
+                title: 'Désolé!',
+                subTitle: 'Le master a refusé votre photo',
+                buttons: ['OK']
+            });
+            alert.present();
+          }
+      });
     }
 
 
     ngOnDestroy() {
-        this.onMessageReceived.unsubscribe();
     }
 
-    ionViewWillEnter() {
-        this.isBadgeUpdatable = false;
+    takePicture() {
+
+        let options = {
+            destinationType: 0,
+            correctOrientation: true,
+            targetWidth: 1280,
+            targetHeight: 720
+        };
+
+        Camera.getPicture(options).then(
+            (imageData) => {
+                let base64Image = 'data:image/jpeg;base64,' + imageData;
+                let imageToSend = { file: base64Image, riddle : this.riddle };
+                this.socketIoService.socket.emit("image", imageToSend);
+                let alert = this.alertCtrl.create({
+                    title: 'Photo envoyée!',
+                    subTitle: 'Veuillez attendre la réponse du master',
+                    buttons: ['OK']
+                });
+                alert.present();
+            },
+            (err) => {
+                console.log("error taking picture", err);
+            });
     }
 
-    ionViewWillLeave() {
-        this.isBadgeUpdatable = true;
-    }
-
-    //==========================================================================
-    // Utils
-    //==========================================================================
-
-    sendMessage(): void {
-        if (this.message != "") {
-            console.log("on emit le message", this.message);
-            this.socketIoService.sendGeneralMessage(this.message);
-            this.message = "";
-        }
-    }
 
 
 }

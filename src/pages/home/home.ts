@@ -1,6 +1,7 @@
 import {SocketIoService} from "../sign-up/socket-io.service";
 import {Subscription} from "rxjs/Subscription";
 import {LocationTrackerService} from "./locationTracker.service";
+import {RiddleService} from "./riddle.service";
 import {Component} from "@angular/core";
 import {Platform} from "ionic-angular";
 import {
@@ -11,7 +12,6 @@ import {
     GoogleMapsMarkerOptions,
     GoogleMapsMarker,
     Geolocation,
-    Camera,
     Geofence
 } from "ionic-native";
 
@@ -22,15 +22,17 @@ import {
 export class HomePage {
 
     private subscriptionPosition: Subscription;
-    private subscriptionTest: Subscription;
     private lat: number;
     private lng: number;
     private map: GoogleMap;
     private myPositionMarker: GoogleMapsMarker;
+    isQuiz: boolean = false;
+    isPicture: boolean = false;
 
     constructor(private locationService: LocationTrackerService,
         private platform: Platform,
-        private socketIoService: SocketIoService) {
+        private socketIoService: SocketIoService,
+      private riddleService: RiddleService) {
     }
 
 
@@ -66,8 +68,18 @@ export class HomePage {
             this.lng = position.lng;
             this.updateMap();
         });
-        this.subscriptionTest = this.socketIoService.getNewRiddle().subscribe((data: any) => {
-            console.log("message reçu zbreh !", data);
+        this.socketIoService.getNewRiddle().subscribe((data: any) => {
+          this.isQuiz=false;
+          this.isPicture=false;
+            if(data.type=="qcm"){
+              this.isQuiz = true;
+
+              this.riddleService.sendNewRiddleQuiz(data);
+            }
+            else{
+              this.isPicture = true;
+              this.riddleService.sendNewRiddlePicture(data);
+            }
         });
     }
 
@@ -133,31 +145,14 @@ export class HomePage {
         if (this.myPositionMarker != undefined) this.myPositionMarker.setPosition(currentPosition);
     }
 
-    fakeToGarbejaire() {
+    fakePictureZone() {
+        this.socketIoService.onFenceEntered("1");
+    }
+    fakeQuizZone() {
         this.socketIoService.onFenceEntered("2");
-
     }
 
 
-    takePicture() {
-
-        let options = {
-            destinationType: 0,
-            correctOrientation: true,
-            targetWidth: 1280,
-            targetHeight: 720
-        };
-
-        Camera.getPicture(options).then(
-            (imageData) => {
-                let base64Image = 'data:image/jpeg;base64,' + imageData;
-                let imageToSend = { file: base64Image };
-                this.socketIoService.socket.emit("image", imageToSend);
-            },
-            (err) => {
-                console.log("error taking picture", err);
-            });
-    }
 
     onTransition
 }

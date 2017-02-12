@@ -7,6 +7,9 @@
   <div *ngIf="isPicture">
     <riddlePicture></riddlePicture>
   </div>
-  <button (click)="fakeToGarbejaire()" ion-button>garbejaire</button>
-  <button (click)="takePicture()" ion-button>photo</button>
+  <div *ngIf="!(isPicture||isQuiz)">
+    Essayez de rejoindre une zone
+  </div>
+  <button (click)="fakePictureZone()" ion-button>Fake Picture Zone</button>
+  <button (click)="fakeQuizZone()" ion-button>Fake Quiz Zone</button>
 </div>

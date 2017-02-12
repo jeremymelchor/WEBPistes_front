@@ -104,12 +104,8 @@ export class SocketIoService {
     }
 
     //=======================================================================
-    // Riddle picture
+    // Riddle
     //=======================================================================
-
-    sendAnswer(message) {
-        this.socket.emit('client_to_masters_message', message);
-    }
 
     getNewRiddle() {
         return new Observable(observer => {
@@ -121,5 +117,21 @@ export class SocketIoService {
                 this.socket.disconnect();
             };
         });
+    }
+
+    getValidation() {
+        return new Observable(observer => {
+            this.socket.on('image', (data) => {
+                observer.next(data);
+            });
+            return () => {
+                console.log("Erreur récéption message image");
+                this.socket.disconnect();
+            };
+        });
+    }
+
+    sendRiddleSolved(riddle) {
+        this.socket.emit('riddle_solved', riddle);
     }
 }

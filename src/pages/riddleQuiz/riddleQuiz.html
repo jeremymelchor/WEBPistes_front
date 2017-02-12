@@ -1,1 +1,11 @@
-<div>QUIZ</div>
+<h3 id="questionTitle" *ngIf="question">{{question}} ({{riddle.points}} points)</h3>
+<ion-list *ngIf="answers" no-lines radio-group>
+
+    <ion-item *ngFor="let a of answers">
+
+        <ion-label>{{a}}</ion-label>
+        <ion-radio (click)="checkAnswer(a)"></ion-radio>
+
+    </ion-item>
+
+</ion-list>
