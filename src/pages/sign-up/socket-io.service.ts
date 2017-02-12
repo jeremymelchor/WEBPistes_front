@@ -61,7 +61,7 @@ export class SocketIoService {
     //=======================================================================
 
     onFenceEntered(fenceId: string) {
-        this.socket.emit("zone_entered", fenceId);
+        this.socket.emit("zone_entered", Number(fenceId));
     }
 
     //=======================================================================
@@ -100,6 +100,26 @@ export class SocketIoService {
             });
             return () => {
                 console.log("Erreur récéption message masters_to_client_message");
+                this.socket.disconnect();
+            };
+        });
+    }
+
+    //=======================================================================
+    // Riddle picture
+    //=======================================================================
+
+    sendAnswer(message) {
+        this.socket.emit('client_to_masters_message', message);
+    }
+
+    getNewRiddle() {
+        return new Observable(observer => {
+            this.socket.on('zone_entered', (data) => {
+                observer.next(data);
+            });
+            return () => {
+                console.log("Erreur récéption message zone_entered");
                 this.socket.disconnect();
             };
         });

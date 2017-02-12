@@ -21317,6 +21317,48 @@ sub {
   margin-bottom: 56px;
 }
 
+#chat_messages {
+  margin: 0;
+  height: 90%;
+}
+
+#chat_action {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 56px;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+#chat_action input {
+  width: 100%;
+}
+
+#chat_messages {
+  margin: 0;
+  height: 90%;
+}
+
+#chat_action {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 56px;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+#chat_action input {
+  width: 100%;
+}
+
 #signUp {
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -21334,7 +21376,7 @@ sub {
 
 .tab-button,
 .tab-button-icon {
-  color: rgba(0, 0, 0, 0.6) !important;
+  color: rgba(0, 0, 0, 0.5) !important;
 }
 
 .tab-button[aria-selected=true],

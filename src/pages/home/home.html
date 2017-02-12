@@ -1,5 +1,12 @@
 <div id="map"></div>
 
 <div id="riddle">
-    <button (click)="takePicture()" ion-button>photo</button>
+  <div *ngIf="isQuiz">
+    <riddleQuiz></riddleQuiz>
+  </div>
+  <div *ngIf="isPicture">
+    <riddlePicture></riddlePicture>
+  </div>
+  <button (click)="fakeToGarbejaire()" ion-button>garbejaire</button>
+  <button (click)="takePicture()" ion-button>photo</button>
 </div>
