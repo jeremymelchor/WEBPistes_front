@@ -21301,6 +21301,11 @@ sub {
   width: 100%;
 }
 
+.sender {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 #map {
   height: 50%;
   width: 100%;
@@ -21315,48 +21320,6 @@ sub {
   bottom: 0;
   width: 100%;
   margin-bottom: 56px;
-}
-
-#chat_messages {
-  margin: 0;
-  height: 90%;
-}
-
-#chat_action {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  position: absolute;
-  width: 100%;
-  bottom: 56px;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-#chat_action input {
-  width: 100%;
-}
-
-#chat_messages {
-  margin: 0;
-  height: 90%;
-}
-
-#chat_action {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  position: absolute;
-  width: 100%;
-  bottom: 56px;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-#chat_action input {
-  width: 100%;
 }
 
 #signUp {

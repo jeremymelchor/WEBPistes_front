@@ -3,8 +3,6 @@ import {PrivateMessageService} from "../pages/private-message/private-message.se
 import {SocketIoService} from "../pages/sign-up/socket-io.service";
 import {SignUp} from "../pages/sign-up/sign-up";
 import {GeneralMessageService} from "../pages/general-message/general-message.service";
-import {RiddlePictureService} from "../pages/riddlePicture/riddlePicture.service";
-import {RiddleQuizService} from "../pages/riddleQuiz/riddleQuiz.service";
 import {RiddleService} from "../pages/home/riddle.service";
 import {NgModule, ErrorHandler} from "@angular/core";
 import {IonicApp, IonicModule, IonicErrorHandler} from "ionic-angular";
@@ -49,8 +47,6 @@ import {TabsPage} from "../pages/tabs/tabs";
         SocketIoService,
         PrivateMessageService,
         LocationTrackerService,
-        RiddleQuizService,
-        RiddlePictureService,
         RiddleService
     ]
 })

@@ -30,7 +30,14 @@ export class GeneralMessage implements OnInit, OnDestroy {
         console.log("On ngOnInit");
         this.onMessageReceived = this.socketIoService.getGeneralMessages().subscribe((data: any) => {
             console.log("message reçu !", data.sender, data.message);
-            this.messages_received.push(data.message);
+            var message = data;
+            if(message.sender==this.socketIoService.teamName){
+              message["isMineMessage"] = true;
+            }
+            else{
+              message["isMineMessage"] = false;
+            }
+            this.messages_received.push(message);
             if (this.isBadgeUpdatable)
                 this.generalMessageService.incrementMessageNotRead();
             this.content.scrollToBottom();

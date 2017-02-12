@@ -81,6 +81,10 @@ export class HomePage {
               this.riddleService.sendNewRiddlePicture(data);
             }
         });
+        this.riddleService.resetRiddle.subscribe(data => {
+          this.isQuiz = false;
+          this.isPicture = false;
+        });
     }
 
     //============================================================================

@@ -6,8 +6,8 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content id="chat_messages">
-    <p *ngFor="let message of messages_received">{{message}}</p>
+<ion-content id="chat_messages" padding>
+  <div *ngFor="let m of messages_received"><p><span class="sender">{{m.sender}}</span><span> : {{m.message}}</span></p></div>
 </ion-content>
 
 <div id="chat_action">

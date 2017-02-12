@@ -27,7 +27,7 @@ export class PrivateMessage {
     ngOnInit() {
         this.onPrivateMessage = this.socketIoService.getPrivateMessages().subscribe((data: any) => {
             console.log("message reçu !", data.sender, data.message);
-            this.messages_received.push(data.message);
+            this.messages_received.push(data);
             if (this.isBadgeUpdatable)
                 this.privateMessageService.incrementMessageNotRead();
         });

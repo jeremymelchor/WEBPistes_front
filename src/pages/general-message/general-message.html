@@ -7,7 +7,10 @@
 </ion-header>
 
 <ion-content id="chat_messages" padding>
-    <p *ngFor="let message of messages_received">{{message}}</p>
+  <div *ngFor="let m of messages_received">
+    <p *ngIf="!m.isMineMessage"><span class="sender">{{m.sender}}</span><span> : {{m.message}}</span></p>
+    <p *ngIf="m.isMineMessage" class ="mineMessage"><span class="sender">Moi</span><span> : {{m.message}}</span></p>
+  </div>
 </ion-content>
 
 <div id="chat_action">

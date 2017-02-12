@@ -1,5 +1,4 @@
 import {SocketIoService} from "../sign-up/socket-io.service";
-import {RiddlePictureService} from "./riddlePicture.service";
 import {RiddleService} from "../home/riddle.service";
 import {Component, OnInit, OnDestroy} from "@angular/core";
 import {Camera} from "ionic-native";
@@ -13,14 +12,16 @@ export class RiddlePicture implements OnInit, OnDestroy {
 
     question: string;
     points: number;
-    riddle : Object;
+    riddle: Object;
+    hasWin: boolean = false;
 
-    constructor(private generalMessageService: RiddlePictureService,
+    constructor(
         private socketIoService: SocketIoService,
         private riddleService: RiddleService,
         public alertCtrl: AlertController) {
         this.riddleService.newRiddlePicture.subscribe(data => {
-          this.riddle=data;
+            this.hasWin = false;
+            this.riddle = data;
             this.question = data.question;
             this.points = Number(data.points);
         });
@@ -35,24 +36,32 @@ export class RiddlePicture implements OnInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-      this.socketIoService.getValidation().subscribe((data: any) => {
-          if(data.validator){
-            let alert = this.alertCtrl.create({
-                title: 'Bravo!',
-                subTitle: 'Le master a validé votre photo',
-                buttons: ['OK']
-            });
-            alert.present();
-          }
-          else{
-            let alert = this.alertCtrl.create({
-                title: 'Désolé!',
-                subTitle: 'Le master a refusé votre photo',
-                buttons: ['OK']
-            });
-            alert.present();
-          }
-      });
+        this.socketIoService.getValidation().subscribe((data: any) => {
+            if (!this.hasWin) {
+
+                if (data.validated) {
+                    let alert = this.alertCtrl.create({
+                        title: 'Bravo!',
+                        subTitle: 'Le master a validé votre photo',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                    this.riddleService.sendResetRiddle();
+
+                    this.hasWin = true;
+                }
+                else {
+                    let alert = this.alertCtrl.create({
+                        title: 'Désolé!',
+                        subTitle: 'Le master a refusé votre photo',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                }
+
+            }
+
+        });
     }
 
 
@@ -71,7 +80,7 @@ export class RiddlePicture implements OnInit, OnDestroy {
         Camera.getPicture(options).then(
             (imageData) => {
                 let base64Image = 'data:image/jpeg;base64,' + imageData;
-                let imageToSend = { file: base64Image, riddle : this.riddle };
+                let imageToSend = { file: base64Image, riddle: this.riddle };
                 this.socketIoService.socket.emit("image", imageToSend);
                 let alert = this.alertCtrl.create({
                     title: 'Photo envoyée!',
