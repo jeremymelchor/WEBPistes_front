@@ -1,7 +1,7 @@
 import {SocketIoService} from "../sign-up/socket-io.service";
 import {PrivateMessageService} from "../private-message/private-message.service";
 import {GeneralMessageService} from "../general-message/general-message.service";
-import {Component, ViewChild} from "@angular/core";
+import {Component} from "@angular/core";
 import {Subscription} from "rxjs/Subscription";
 import {HomePage} from "../home/home";
 import {GeneralMessage} from "../general-message/general-message";

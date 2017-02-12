@@ -57,7 +57,7 @@ export class RiddleQuiz implements OnInit, OnDestroy {
         }
         else {
             let alert = this.alertCtrl.create({
-                title: 'Bonne réponsé!',
+                title: 'Bonne réponse!',
                 subTitle: 'Bravo',
                 buttons: ['OK']
             });
