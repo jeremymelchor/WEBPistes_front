@@ -28,12 +28,16 @@ export class HomePage {
     private myPositionMarker: GoogleMapsMarker;
     isQuiz: boolean = false;
     isPicture: boolean = false;
+    currentPoints: number = 0;
 
     constructor(
         private locationService: LocationTrackerService,
         private platform: Platform,
         private socketIoService: SocketIoService,
       private riddleService: RiddleService) {
+        this.riddleService.addPoints.subscribe(data => {
+            this.currentPoints+=data;
+        });
     }
 
 
@@ -157,7 +161,4 @@ export class HomePage {
         this.socketIoService.onFenceEntered("2");
     }
 
-
-
-    onTransition
 }

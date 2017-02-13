@@ -12,11 +12,15 @@ export class RiddleService {
     resetRiddleSource = new BehaviorSubject<any>(0);
     resetRiddle: Observable<any>;
 
+    addPointsSource = new BehaviorSubject<any>(0);
+    addPoints: Observable<any>;
+
 
     constructor() {
         this.newRiddleQuiz = this.newRiddleQuizSource.asObservable();
         this.newRiddlePicture = this.newRiddlePictureSource.asObservable();
         this.resetRiddle = this.resetRiddleSource.asObservable();
+        this.addPoints = this.addPointsSource.asObservable();
     }
 
     sendNewRiddleQuiz(data: Object) {
@@ -27,6 +31,9 @@ export class RiddleService {
     }
     sendResetRiddle() {
         this.resetRiddleSource.next({});
+    }
+    addCurrentPoints(data : number) {
+        this.addPointsSource.next(data);
     }
 
 }

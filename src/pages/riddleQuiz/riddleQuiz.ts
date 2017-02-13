@@ -64,6 +64,7 @@ export class RiddleQuiz implements OnInit, OnDestroy {
             alert.present();
             this.riddle["points"] = Number(this.riddle["points"]);
             this.socketIoService.sendRiddleSolved(this.riddle);
+            this.riddleService.addCurrentPoints(this.riddle["points"]);
             this.riddleService.sendResetRiddle();
         }
     }
